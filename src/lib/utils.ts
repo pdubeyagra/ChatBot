@@ -1,15 +1,15 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 // export function absoluteUrl(path: string) {
 //   return `$(process.env.NEXT_PUBLIC_APP_URL)${path}`
 // }
 
-export const absoluteUrl = (path = '') => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+export const absoluteUrl = (path = "") => {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
   return `${baseUrl}${path}`;
 };
