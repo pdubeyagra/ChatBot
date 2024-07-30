@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Code } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
+//import { ChatCompletionRequestMessage } from "openai";
+import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
@@ -25,7 +26,7 @@ import { useProModal } from "@/hooks/use-pro-modal";
 const CodeGeneration = () => {
   const proModal = useProModal();
   const router = useRouter();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +40,7 @@ const CodeGeneration = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
     try {
-      const userMessage: ChatCompletionRequestMessage = {
+      const userMessage: ChatCompletionMessageParam = {
         role: "user",
         content: values.prompt,
       };
@@ -126,7 +127,7 @@ const CodeGeneration = () => {
                     code: ({ node, ...props }) => <code className="rounded-sm p-1 bg-black/10" {...props} />,
                   }}
                 >
-                  {message.content || ""}
+                  {message.content as string}
                 </ReactMarkdown>
               </div>
             ))}

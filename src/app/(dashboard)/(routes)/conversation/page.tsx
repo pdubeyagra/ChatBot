@@ -7,7 +7,8 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { CreateChatCompletionRequestMessage } from "openai";
+// import { CreateChatCompletionRequestMessage } from "openai";
+import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 import Heading from "@/components/Heading";
 import { formSchema } from "./constants";
@@ -24,7 +25,7 @@ import { useProModal } from "@/hooks/use-pro-modal";
 const Conversation = () => {
   const proModal = useProModal();
   const router = useRouter();
-  const [messages, setMessages] = useState<CreateChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,7 +37,7 @@ const Conversation = () => {
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: CreateChatCompletionRequestMessage = {
+      const userMessage: ChatCompletionMessageParam = {
         role: "user",
         content: values.prompt,
       };
@@ -112,7 +113,7 @@ const Conversation = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{message.content}</p>
+                <p className="text-sm">{message.content as string}</p>
               </div>
             ))}
           </div>
